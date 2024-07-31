@@ -33,7 +33,7 @@ namespace MyLibrary
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Libraries}/{action=Index}/{id?}");
 
             app.Run();
         }

@@ -11,7 +11,7 @@ namespace MyLibrary.Models
         public string? SetName { get; set; } = null;
         public int ShelfId { get; set; }
         [ForeignKey(nameof(ShelfId))]
-        public Shelf Shelf { get; set; }
+        public Shelf? Shelf { get; set; }
 
     }
 }

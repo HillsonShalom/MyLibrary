@@ -1,0 +1,72 @@
+﻿@model MyLibrary.Data.ViewModels.BookSetViewModel
+
+@{
+    ViewData["Title"] = "CreateSet";
+}
+
+<h1>Create Set</h1>
+
+<h4>Book Set</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateSet">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SetName" class="control-label"></label>
+                <input asp-for="SetName" class="form-control" />
+                <span asp-validation-for="SetName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Height" class="control-label"></label>
+                <input asp-for="Height" class="form-control" />
+                <span asp-validation-for="Height" class="text-danger"></span>
+            </div>
+
+            <h4>Books</h4>
+            <div id="books-container">
+                <div class="form-group">
+                    <label for="Books_0__Name" class="control-label">Book Name</label>
+                    <input name="Books[0].Name" class="form-control" />
+                    <span asp-validation-for="Books[0].Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="Books_0__Width" class="control-label">Book Width (cm)</label>
+                    <input name="Books[0].Width" class="form-control" />
+                    <span asp-validation-for="Books[0].Width" class="text-danger"></span>
+                </div>
+            </div>
+            <button type="button" id="add-book" class="btn btn-secondary">Add Another Book</button>
+
+            <div class="form-group mt-3">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script>
+        let bookIndex = 1;
+        document.getElementById('add-book').addEventListener('click', function () {
+            const container = document.getElementById('books-container');
+            const bookHtml = `
+                        <div class="form-group">
+                            <label for="Books_${bookIndex}__Name" class="control-label">Book Name</label>
+                            <input name="Books[${bookIndex}].Name" class="form-control" />
+                            <span asp-validation-for="Books[${bookIndex}].Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="Books_${bookIndex}__Width" class="control-label">Book Width (cm)</label>
+                            <input name="Books[${bookIndex}].Width" class="form-control" />
+                            <span asp-validation-for="Books[${bookIndex}].Width" class="text-danger"></span>
+                        </div>`;
+            container.insertAdjacentHTML('beforeend', bookHtml);
+            bookIndex++;
+        });
+    </script>
+}

@@ -1,0 +1,63 @@
+﻿@using MyLibrary.Data.ViewModels
+@model LibraryToShelves;
+
+@{
+    ViewData["Title"] = "Index";
+    var list = Model.List;
+}
+
+<h1>Index</h1>
+
+@if (Model.Id != null){
+    <p>
+        <a asp-action="Create" asp-route-id="@Model.Id">Create New</a>
+    </p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.List.First().Number)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.List.First().Height)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.List.First().Width)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.List.First().AvailableWidth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.List.First().Library.Id)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.List) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Height)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Width)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AvailableWidth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Library.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

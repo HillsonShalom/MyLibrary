@@ -12,6 +12,6 @@ namespace MyLibrary.Models
         public double AvailableWidth { get; set; }
         public int LibraryId { get; set; }
         [ForeignKey(nameof(LibraryId))]
-        public Library Library { get; set; }
+        public Library? Library { get; set; }
     }
 }

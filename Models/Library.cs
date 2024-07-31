@@ -11,8 +11,5 @@ namespace MyLibrary.Models
         public string Name { get; set; }
         public string Genre { get; set; }
         public int? FirstShelf { get; set; }
-        
-        [NotMapped]
-        public List<Shelf> Shelves { get; set; }
     }
 }
