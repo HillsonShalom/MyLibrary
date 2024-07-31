@@ -1,37 +1,42 @@
-﻿@model IEnumerable<MyLibrary.Models.Book>
+﻿@using MyLibrary.Data.ViewModels
+@model ShelfToBooks;
 
 @{
     ViewData["Title"] = "Index";
+    int? id = ViewData["ShelfId"] as int?;
 }
 
 <h1>Index</h1>
+@if (id != null)
+{
+    <p>
+        <a asp-action="CreateSet" asp-route-id="@id">Create New</a>
+    </p> 
+}
 
-<p>
-    <a asp-action="CreateSet">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.List.First().Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Height)
+                @Html.DisplayNameFor(model => model.List.First().Height)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Width)
+                @Html.DisplayNameFor(model => model.List.First().Width)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SetName)
+                @Html.DisplayNameFor(model => model.List.First().SetName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Shelf)
+                @Html.DisplayNameFor(model => model.List.First().Shelf)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.List) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)

@@ -21,10 +21,26 @@ namespace MyLibrary.Controllers
         }
 
         // GET: Books
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            var appDbContext = _context.Book.Include(b => b.Shelf);
-            return View(await appDbContext.ToListAsync());
+            IEnumerable<Book> groupedList;
+            if (id != null)
+            {
+                groupedList = _context.Book.Include(s => s.Shelf)
+                    .Where(s => s.ShelfId == id);
+                ViewData["ShelfId"] = id;
+            }
+            else
+            {
+                groupedList = _context.Book.Include(s => s.Shelf);
+                ViewData["ShelfId"] = null;
+            }
+            ShelfToBooks model = new ShelfToBooks()
+            {
+                Id = id,
+                List = groupedList
+            };
+            return View(model);
         }
 
         // GET: Books/Details/5
@@ -53,21 +69,26 @@ namespace MyLibrary.Controllers
             return View();
         }
 
-        public IActionResult CreateSet()
+        public IActionResult CreateSet(int id)
         {
-            ViewData["ShelfId"] = new SelectList(_context.Shelf, "Id", "Id");
+            ViewData["ShelfId"] = id;
             return View();
         }
 
+        // לבדוק את האינקלוד של המדפים כשלא מכניסים מזהה בקישור
         [HttpPost]
         public IActionResult CreateSet(BookSetViewModel model)
         {
+            model.Books = model.Books.Where(s => s.Name != null && s.Width != 0).ToList();
+            Shelf shelf = _context.Shelf.Find(model.ShelfId);
             if (ModelState.IsValid)
             {
                 foreach (var book in model.Books)
                 {
                     book.SetName = model.SetName;
                     book.Height = model.Height;
+                    book.Shelf = shelf;
+                    book.ShelfId = model.ShelfId;
                     _context.Book.Add(book);
                 }
                 _context.SaveChanges();

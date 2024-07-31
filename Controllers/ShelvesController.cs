@@ -73,6 +73,7 @@ namespace MyLibrary.Controllers
         {
             if (ModelState.IsValid)
             {
+                shelf.Library = _context.Library.Find(shelf.LibraryId);
                 _context.Shelf.Add(shelf);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

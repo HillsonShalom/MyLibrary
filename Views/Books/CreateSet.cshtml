@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "CreateSet";
+    var id = ViewData["ShelfId"];
 }
 
 <h1>Create Set</h1>
@@ -12,6 +13,11 @@
     <div class="col-md-4">
         <form asp-action="CreateSet">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" hidden>
+                <label asp-for="ShelfId" class="control-label"></label>
+                <input asp-for="ShelfId" value="@id" class="form-control" hidden/>
+                <span asp-validation-for="ShelfId" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="SetName" class="control-label"></label>
                 <input asp-for="SetName" class="form-control" />

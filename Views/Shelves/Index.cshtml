@@ -1,63 +1,78 @@
-﻿@using MyLibrary.Data.ViewModels
+﻿@using MyLibrary.Data.ViewModels;
 @model LibraryToShelves;
 
 @{
     ViewData["Title"] = "Index";
-    var list = Model.List;
 }
 
 <h1>Index</h1>
 
-@if (Model.Id != null){
-    <p>
-        <a asp-action="Create" asp-route-id="@Model.Id">Create New</a>
-    </p>
-}
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.List.First().Number)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.List.First().Height)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.List.First().Width)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.List.First().AvailableWidth)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.List.First().Library.Id)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.List) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Number)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Height)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Width)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AvailableWidth)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Library.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="container">
+    <div class="row">
+        <!-- Table Header -->
+        <div class="col-md-12 mb-4">
+            <div class="card border-light bg-light">
+                <div class="card-body d-flex flex-row">
+                    <div class="flex-grow-1"><strong>Number</strong></div>
+                    <div class="flex-grow-1"><strong>Height</strong></div>
+                    <div class="flex-grow-1"><strong>Width</strong></div>
+                    <div class="flex-grow-1"><strong>Available Width</strong></div>
+                    <div class="flex-grow-1" hidden><strong>Library ID</strong></div>
+                    <div class="flex-grow-1" hidden><strong>Library ID</strong></div>
+
+                </div>
+            </div>
+        </div>
+
+        @foreach (var item in Model.List)
+        {
+            <div class="col-md-12 mb-4">
+                <a asp-action="Index" asp-controller="Books" asp-route-id="@item.Id" class="text-decoration-none card-link">
+                    <div class="card h-100 border-light bg-light shadow-sm">
+                        <div class="card-body d-flex align-items-center">
+                            <h5 class="card-title flex-grow-1" style="font-family: Arial, sans-serif;">Shelf Number: @Html.DisplayFor(modelItem => item.Number)</h5>
+                            <p class="card-text d-flex flex-row align-items-center flex-grow-1" style="font-family: 'Courier New', Courier, monospace;">
+                                <span class="me-3"> @Html.DisplayFor(modelItem => item.Height)</span>
+                                <span class="me-3"> @Html.DisplayFor(modelItem => item.Width)</span>
+                                <span class="me-3"> @Html.DisplayFor(modelItem => item.AvailableWidth)</span>
+                                <span class="me-3" hidden> @Html.DisplayFor(modelItem => item.Library.Id)</span>
+                            </p>
+                            <div class="ms-auto d-flex">
+                                <a class="btn btn-secondary btn-sm me-2" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+
+        <!-- Create Button as a Card -->
+        <div class="col-md-12 mb-4">
+            <a class="card h-100 d-flex align-items-center justify-content-center text-decoration-none bg-info text-white" asp-action="Create" asp-route-id="@Model.Id">
+                <div class="card-body text-center">
+                    <h1 class="card-title mb-0">+</h1>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<!-- Bootstrap Pop Effect -->
+<style>
+    .card-link .card {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card-link:hover .card {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-link:active .card {
+        transform: translateY(0);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+</style>

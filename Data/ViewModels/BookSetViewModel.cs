@@ -7,5 +7,6 @@ namespace MyLibrary.Data.ViewModels
         public string SetName { get; set; }
         public double Height { get; set; }
         public List<Book> Books { get; set; } = new List<Book>();
+        public int ShelfId { get; set; }
     }
 }
