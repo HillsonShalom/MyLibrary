@@ -68,17 +68,25 @@ namespace MyLibrary.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Number,Height,Width,AvailableWidth,LibraryId")] Shelf shelf)
+        [ValidateAntiForgeryToken]  // יש פה שינויים
+        public async Task<IActionResult> Create([Bind("Height,Width,LibraryId")] Shelf shelf)
         {
+            shelf.AvailableWidth = shelf.Width;
+            shelf.Library = await _context.Library.FindAsync(shelf.LibraryId);
+            var otherShelves = _context.Shelf.Where(s => s.LibraryId == shelf.LibraryId).ToList();
+            int maxNum = shelf.Library.FirstShelf ?? 1;
+            foreach (var item in otherShelves)
+            {
+                if (item.Number > maxNum) { maxNum = item.Number; }
+            }
+            shelf.Number = maxNum + 1;
             if (ModelState.IsValid)
             {
-                shelf.Library = _context.Library.Find(shelf.LibraryId);
                 _context.Shelf.Add(shelf);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id = shelf.LibraryId });
             }
-            ViewData["LibraryId"] = new SelectList(_context.Library, "Id", "Id", shelf.LibraryId);
+            ViewData["LibraryId"] = shelf.LibraryId;
             return View(shelf);
         }
 

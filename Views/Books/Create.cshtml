@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Create";
+    int? id = ViewData["ShelfId"] as int?; // גם זו שורה חדשה ובהתאם נוסף ניתוב למטה
 }
 
 <h1>Create</h1>
@@ -27,14 +28,9 @@
                 <input asp-for="Width" class="form-control" />
                 <span asp-validation-for="Width" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="SetName" class="control-label"></label>
-                <input asp-for="SetName" class="form-control" />
-                <span asp-validation-for="SetName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label asp-for="ShelfId" class="control-label"></label>
-                <select asp-for="ShelfId" class ="form-control" asp-items="ViewBag.ShelfId"></select>
+                <input asp-for="ShelfId" value="@id" class="form-control" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -44,7 +40,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" asp-route-id="@id">Back to List</a>
 </div>
 
 @section Scripts {

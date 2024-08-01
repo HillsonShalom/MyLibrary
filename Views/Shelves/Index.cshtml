@@ -50,11 +50,14 @@
 
         <!-- Create Button as a Card -->
         <div class="col-md-12 mb-4">
-            <a class="card h-100 d-flex align-items-center justify-content-center text-decoration-none bg-info text-white" asp-action="Create" asp-route-id="@Model.Id">
+            @if (Model.Id != null)
+            {
+                <a class="card h-100 d-flex align-items-center justify-content-center text-decoration-none bg-info text-white" asp-action="Create" asp-route-id="@Model.Id">
                 <div class="card-body text-center">
                     <h1 class="card-title mb-0">+</h1>
                 </div>
-            </a>
+                </a>
+            }
         </div>
     </div>
 </div>

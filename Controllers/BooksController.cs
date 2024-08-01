@@ -63,10 +63,28 @@ namespace MyLibrary.Controllers
         }
 
         // GET: Books/Create
-        public IActionResult Create()
+        public IActionResult Create(int id)
         {
-            ViewData["ShelfId"] = new SelectList(_context.Shelf, "Id", "Id");
+            ViewData["ShelfId"] = id; // מחקתי מה שהיה כתוב והשוויתי את זה לפונקצייה הבאה
             return View();
+        }
+
+        // POST: Books/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken] // זה צריך לשנות מהיסוד
+        public async Task<IActionResult> Create([Bind("Name,Height,Width,ShelfId")] Book book)
+        {
+            if (ModelState.IsValid)
+            {
+                book.Shelf = await _context.Shelf.FindAsync(book.ShelfId);
+                _context.Add(book);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["ShelfId"] = book.ShelfId;
+            return View(book);
         }
 
         public IActionResult CreateSet(int id)
@@ -97,22 +115,7 @@ namespace MyLibrary.Controllers
             return View(model);
         }
 
-        // POST: Books/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Height,Width,SetName,ShelfId")] Book book)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(book);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["ShelfId"] = new SelectList(_context.Shelf, "Id", "Id", book.ShelfId);
-            return View(book);
-        }
+        
 
         // GET: Books/Edit/5
         public async Task<IActionResult> Edit(int? id)

@@ -6,12 +6,17 @@
     int? id = ViewData["ShelfId"] as int?;
 }
 
+
 <h1>Index</h1>
 @if (id != null)
 {
+    // עוד שינוי חשוב, שהרי צריך שני קישורים
     <p>
-        <a asp-action="CreateSet" asp-route-id="@id">Create New</a>
-    </p> 
+        <a asp-action="CreateSet" asp-route-id="@id">Add New Set</a>
+    </p>
+    <p>
+        <a asp-action="Create" asp-route-id="@id">Add New Book</a>
+    </p>
 }
 
 <table class="table">
