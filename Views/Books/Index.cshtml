@@ -4,10 +4,13 @@
 @{
     ViewData["Title"] = "Index";
     int? id = ViewData["ShelfId"] as int?;
+    var libId = ViewData["LibraryId"];
+}
+@if (ViewData["LibraryName"] != null)
+{
+    <h1>@ViewData["LibraryName"]</h1>
 }
 
-
-<h1>Index</h1>
 @if (id != null)
 {
     // עוד שינוי חשוב, שהרי צריך שני קישורים
@@ -62,7 +65,11 @@
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
-        </tr>
+        </tr>    
 }
     </tbody>
 </table>
+
+<p>
+    <a asp-controller="Shelves" asp-action="Index" asp-route-id="@libId">Back to all shelves of our library</a>
+</p>

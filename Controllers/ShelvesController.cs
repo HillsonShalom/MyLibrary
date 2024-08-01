@@ -28,6 +28,8 @@ namespace MyLibrary.Controllers
             {
                 groupedList = _context.Shelf.Include(s => s.Library)
                     .Where(s => s.LibraryId == id);
+                Library lib = await _context.Library.FindAsync(id);
+                ViewData["LibraryName"] = lib.Genre;
             } else {
                 groupedList = _context.Shelf.Include(s => s.Library);
             }

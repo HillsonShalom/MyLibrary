@@ -29,6 +29,10 @@ namespace MyLibrary.Controllers
                 groupedList = _context.Book.Include(s => s.Shelf)
                     .Where(s => s.ShelfId == id);
                 ViewData["ShelfId"] = id;
+                Shelf shelf = await _context.Shelf.FindAsync(id);
+                Library library = await _context.Library.FindAsync(shelf.LibraryId);
+                ViewData["LibraryName"] = library.Genre;
+                ViewData["LibraryId"] = library.Id;
             }
             else
             {
@@ -69,9 +73,10 @@ namespace MyLibrary.Controllers
             return View();
         }
 
-        // POST: Books/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //POST: Books/Create
+        //To protect from overposting attacks, enable the specific properties you want to bind to.
+        //For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Height,Width,ShelfId")] Book book)
@@ -81,6 +86,7 @@ namespace MyLibrary.Controllers
                 book.Shelf = await _context.Shelf.FindAsync(book.ShelfId);
                 if (book.Shelf.AvailableWidth >= book.Width && book.Shelf.Height >= book.Height)
                 {
+                    //if (book.Shelf.Height >= book.Height + 10) ViewData["Message"] = "The book is too low";
                     book.Shelf.AvailableWidth -= book.Width;
                     _context.Add(book);
                     await _context.SaveChangesAsync();
@@ -98,6 +104,8 @@ namespace MyLibrary.Controllers
             ViewData["ShelfId"] = book.ShelfId;
             return View(book);
         }
+
+
 
         public IActionResult CreateSet(int id)
         {
