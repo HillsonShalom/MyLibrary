@@ -3,7 +3,10 @@
 @{
     ViewData["Title"] = "CreateSet";
     var id = ViewData["ShelfId"];
+    var message = ViewData["Message"];
 }
+
+
 
 <h1>Create Set</h1>
 
@@ -54,6 +57,12 @@
 <div>
     <a asp-action="Index" asp-route-id="@id">Back to List</a>
 </div>
+@if (message != null)
+{
+    <script>
+        alert("@message");
+    </script>
+}
 
 @section Scripts {
     <script>

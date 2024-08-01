@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "Create";
     int? id = ViewData["ShelfId"] as int?; // גם זו שורה חדשה ובהתאם נוסף ניתוב למטה
+    var message = ViewData["Message"];
 }
+
 
 <h1>Create</h1>
 
@@ -42,6 +44,12 @@
 <div>
     <a asp-action="Index" asp-route-id="@id">Back to List</a>
 </div>
+@if (message != null)
+{
+    <script>
+        alert("@message");
+    </script>
+}
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
