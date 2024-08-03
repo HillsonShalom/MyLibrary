@@ -86,7 +86,11 @@ namespace MyLibrary.Controllers
                 book.Shelf = await _context.Shelf.FindAsync(book.ShelfId);
                 if (book.Shelf.AvailableWidth >= book.Width && book.Shelf.Height >= book.Height)
                 {
-                    //if (book.Shelf.Height >= book.Height + 10) ViewData["Message"] = "The book is too low";
+                    if (book.Shelf.Height >= book.Height + 10)
+                    {
+                        ViewData["Message"] = "The book is too low";
+                        return View(book);
+                    }    
                     book.Shelf.AvailableWidth -= book.Width;
                     _context.Add(book);
                     await _context.SaveChangesAsync();
